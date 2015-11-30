@@ -1,9 +1,13 @@
 package com.heng.wheel;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import java.util.ArrayList;
 
@@ -50,6 +54,20 @@ public class WheelViewManager extends SimpleViewManager<LoopView> {
     @ReactProp(name = "textSize",defaultFloat = 16f)
     public void setTextSize(LoopView view, float textSize){
         view.setTextSize(textSize);
+    }
+
+    @ReactProp(name = "onItemChange",defaultBoolean = true)
+    public void setOnItemChange(final LoopView view){
+        view.setListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int index) {
+                WritableMap event = Arguments.createMap();
+                event.putInt("index", index);
+                ReactContext reactContext = (ReactContext) view.getContext();
+                reactContext.getJSModule(RCTEventEmitter.class)
+                        .receiveEvent(view.getId(), "topChange", event);
+            }
+        });
     }
 
 }
