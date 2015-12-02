@@ -46,9 +46,9 @@ public class WheelViewManager extends SimpleViewManager<LoopView> {
         view.isLoop(isLoop);
     }
 
-    @ReactProp(name = "initPosition",defaultInt = 0)
+    @ReactProp(name = "selectedIndex",defaultInt = 0)
     public void setInitPosition(LoopView view,int initPosition){
-        view.setInitPosition(initPosition);
+        view.setSelectedIndex(initPosition);
     }
 
     @ReactProp(name = "textSize",defaultFloat = 16f)

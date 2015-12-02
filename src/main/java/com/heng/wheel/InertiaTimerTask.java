@@ -38,11 +38,11 @@ class InertiaTimerTask extends TimerTask {
         loopview.totalScrollY = loopview.totalScrollY - i;
         if (!loopView.isLoop) {
             float itemHeight = loopView.lineSpacingMultiplier * loopView.maxTextHeight;
-            if (loopView.totalScrollY <= (int) ((float) (-loopView.initPosition) * itemHeight)) {
+            if (loopView.totalScrollY <= (int) ((float) (-loopView.selectedIndex) * itemHeight)) {
                 a = 40F;
-                loopView.totalScrollY = (int) ((float) (-loopView.initPosition) * itemHeight);
-            } else if (loopView.totalScrollY >= (int) ((float) (loopView.items.size() - 1 - loopView.initPosition) * itemHeight)) {
-                loopView.totalScrollY = (int) ((float) (loopView.items.size() - 1 - loopView.initPosition) * itemHeight);
+                loopView.totalScrollY = (int) ((float) (-loopView.selectedIndex) * itemHeight);
+            } else if (loopView.totalScrollY >= (int) ((float) (loopView.items.size() - 1 - loopView.selectedIndex) * itemHeight)) {
+                loopView.totalScrollY = (int) ((float) (loopView.items.size() - 1 - loopView.selectedIndex) * itemHeight);
                 a = -40F;
             }
         }
