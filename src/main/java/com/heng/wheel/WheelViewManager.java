@@ -47,13 +47,33 @@ public class WheelViewManager extends SimpleViewManager<LoopView> {
     }
 
     @ReactProp(name = "selectedIndex",defaultInt = 0)
-    public void setInitPosition(LoopView view,int initPosition){
+    public void setSelectedIndex(LoopView view,int initPosition){
         view.setSelectedIndex(initPosition);
     }
 
     @ReactProp(name = "textSize",defaultFloat = 16f)
     public void setTextSize(LoopView view, float textSize){
         view.setTextSize(textSize);
+    }
+
+    @ReactProp(name = "previous")
+    public void previous(LoopView view){
+        view.previous();
+    }
+
+    @ReactProp(name = "next")
+    public void next(LoopView view){
+        view. next();
+    }
+
+    @ReactProp(name = "getSelectedItem")
+    public void getSelectedItem(LoopView view){
+        view. getSelectedItem();
+    }
+
+    @ReactProp(name = "getSelectedIndex")
+    public void getSelectedIndex(LoopView view){
+        view. getSelectedIndex();
     }
 
     @ReactProp(name = "onItemChange",defaultBoolean = true)
