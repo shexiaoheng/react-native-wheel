@@ -90,7 +90,7 @@ var AwesomeProject = React.createClass({
                   onItemChange={this.onItemChange}
                   values={wheelData}
                   isLoop={true}
-                  initPosition={0}
+                  selectedIndex={0}
                   textSize={17}
                   />
             </View>
@@ -139,6 +139,9 @@ dependencies {
 // modify the above @ value not higher than you project value
 
 ```
+
+##Reference
+https://github.com/weidongjian/androidWheelView
 
 ## Run Renderings
 <center>
