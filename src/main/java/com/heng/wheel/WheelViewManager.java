@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 /**
  * Created by heng on 15/11/27.
+ * Edited by heng on 15/12/03
  */
 public class WheelViewManager extends SimpleViewManager<LoopView> {
 
@@ -47,8 +48,8 @@ public class WheelViewManager extends SimpleViewManager<LoopView> {
     }
 
     @ReactProp(name = "selectedIndex",defaultInt = 0)
-    public void setSelectedIndex(LoopView view,int initPosition){
-        view.setSelectedIndex(initPosition);
+    public void setSelectedIndex(LoopView view,int selectedIndex){
+        view.setSelectedIndex(selectedIndex);
     }
 
     @ReactProp(name = "textSize",defaultFloat = 16f)
@@ -56,28 +57,8 @@ public class WheelViewManager extends SimpleViewManager<LoopView> {
         view.setTextSize(textSize);
     }
 
-    @ReactProp(name = "previous")
-    public void previous(LoopView view){
-        view.previous();
-    }
-
-    @ReactProp(name = "next")
-    public void next(LoopView view){
-        view. next();
-    }
-
-    @ReactProp(name = "getSelectedItem")
-    public void getSelectedItem(LoopView view){
-        view. getSelectedItem();
-    }
-
-    @ReactProp(name = "getSelectedIndex")
-    public void getSelectedIndex(LoopView view){
-        view. getSelectedIndex();
-    }
-
-    @ReactProp(name = "onItemChange",defaultBoolean = true)
-    public void setOnItemChange(final LoopView view){
+    @ReactProp(name = "onItemChange", defaultBoolean = true)
+    public void setOnItemChange(final LoopView view, Boolean value) {
         view.setListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(int index) {
