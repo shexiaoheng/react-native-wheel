@@ -1,10 +1,16 @@
 var React = require('react-native');
 
-var {requireNativeComponent,PropTypes} = React;
+var { NativeModules,requireNativeComponent,PropTypes,View} = React;
+
+var UIManager = NativeModules.UIManager;
+
+var NativeWheelView = requireNativeComponent('RCTWheelView',WheelView);
+
+var WHEELVIEW_REF = 'wheel';
 
 var WheelView = React.createClass({
-
     propTypes: {
+        ...View.propTypes,
         onItemChange: PropTypes.func,
         values: PropTypes.array,
         isLoop: PropTypes.bool,
@@ -16,16 +22,23 @@ var WheelView = React.createClass({
             this.props.onItemChange(event.nativeEvent.index);
         }
     },
-    render(){
-        return(
-            <NativeWheelView
-                {...this.props}
-                onChange = {this.handleOnChange}
-            />
+    previous: function(){
+        UIManager.dispatchViewManagerCommand(
+            React.findNodeHandle(this.refs.wheel),
+            UIManager.RCTWheelView.Commands.previous,
+            null,
         );
     },
+    next: function(){
+        UIManager.dispatchViewManagerCommand(
+            React.findNodeHandle(this.refs.wheel),
+            UIManager.RCTWheelView.Commands.next,
+            null,
+        );
+    },
+    render(){
+        return <NativeWheelView {...this.props} onChange={this.handleOnChange} ref={WHEELVIEW_REF}/>;
+    }
 });
-
-var NativeWheelView = requireNativeComponent('RCTWheelView',WheelView);
 
 module.exports = WheelView;
