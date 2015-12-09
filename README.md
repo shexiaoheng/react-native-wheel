@@ -70,45 +70,95 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
 ```js
 // file: index.android.js
+
+'use strict';
+
 var React = require('react-native');
+var {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  View,
+} = React;
+
 var WheelView = require('react-native-wheel');
 
-var { AppRegistry,StyleSheet,Text,View,ToastAndroid } = React;
+var Dimensions = require('Dimensions');
+
+
+var SCREEN_WIDTH = Dimensions.get('window').width;
+var SCREEN_HEIGHT = Dimensions.get('window').height;
+
 
 var wheelData = ['one','two','three','four','five','six','seven','eight','nine','ten'];
 
+var currentIndex;
+
 var AwesomeProject = React.createClass({
-
-    onItemChange(index){
-      ToastAndroid.show('select item : ' + wheelData[index],ToastAndroid.SHORT);
-    },
-    render: function() {
-        return (
-            <View style={styles.container}>
-               <WheelView
-                  style={styles.wheelview}
-                  onItemChange={this.onItemChange}
-                  values={wheelData}
-                  isLoop={true}
-                  selectedIndex={0}
-                  textSize={17}
-                  />
-            </View>
-        );
-    }
+  previous(){
+    this.refs.wheel.previous();
+  },
+  next(){
+    this.refs.wheel.next();
+  },
+  finish(){
+    ToastAndroid.show('select item : ' + wheelData[currentIndex] ,ToastAndroid.LONG);
+  },
+  onItemChange(index){
+    currentIndex = index;
+  },
+  render: function() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome} onPress={this.previous} >
+          上一个
+        </Text>
+        <Text style={styles.instructions} onPress={this.next} >
+          下一个
+        </Text>
+        <Text style={styles.instructions} onPress={this.finish} >
+          完成
+        </Text>
+        <WheelView
+          style={styles.wheelview}
+          onItemChange={this.onItemChange}
+          values={wheelData}
+          isLoop={false}
+          selectedIndex={0}
+          textSize={20}
+          ref='wheel'
+        />
+      </View>
+    );
+  }
 });
-
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+  previous: {
+    margin: 20,
+    fontSize: 22,
+    color: '#000000',
+  },
+  next: {
+    margin: 20,
+    color: '#000000',
+    fontSize: 22,
+  },
+  finish: {
+    margin: 20,
+    color: '#000000',
+    fontSize: 22,
+  },
   wheelview: {
-    width: 120,
-    height: 300
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT/5*2,
   },
 });
 
@@ -118,9 +168,10 @@ AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
 
 
 ## Notes
-- if has error , please check build.gradle config
-- you can modify this library (react-native-wheel/build.gradle)
+
+- Only in the following versions tested , other versions do not guarantee success
 ```gradle
+// file: react-native-wheel/build.gradle
 
 android {
     compileSdkVersion 23  //@
@@ -128,23 +179,25 @@ android {
 
     defaultConfig {
         minSdkVersion 16 
-        targetSdkVersion 23  //@
+        targetSdkVersion 22  //@
     }
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:0.15.+'  //@
+    compile 'com.facebook.react:react-native:0.16.1'  //@
 }
 
 // modify the above @ value not higher than you project value
 
 ```
 
-##Reference
+## Reference
 https://github.com/weidongjian/androidWheelView
 
 ## Run Renderings
 <center>
-    <img src="https://github.com/shexiaoheng/react-native-wheel/blob/master/Screenshot/result.png"
+    <img src="https://github.com/shexiaoheng/react-native-wheel/blob/master/Screenshot/result_one.png"
+    width="300" height="450"/>
+    <img src="https://github.com/shexiaoheng/react-native-wheel/blob/master/Screenshot/result_two.png"
     width="300" height="450"/>
 </center>
