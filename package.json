@@ -1,6 +1,6 @@
 {
   "name": "react-native-wheel",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "android wheel view for react-native",
   "main": "index.js",
   "scripts": {
