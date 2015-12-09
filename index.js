@@ -1,9 +1,11 @@
 var React = require('react-native');
 
-var { NativeModules,requireNativeComponent,PropTypes} = React;
+var {NativeModules,requireNativeComponent,PropTypes} = React;
 
-var iface = {
-    name: 'RCTWheelView',
+var RCTUIManager = NativeModules.UIManager;
+
+var WheelView = React.createClass({
+
     propTypes: {
         onItemChange: PropTypes.func,
         values: PropTypes.array,
@@ -11,20 +13,35 @@ var iface = {
         selectedIndex: PropTypes.number,
         textSize: PropTypes.number,
     },
-};
-
-var NativeWheelView = requireNativeComponent('RCTWheelView',iface);
-
-var MyWheelView = React.createClass({
-
+    previous: function(){
+        RCTUIManager.dispatchViewManagerCommand(
+            React.findNodeHandle(this),
+            RCTUIManager.RCTWheelView.Commands.previous,
+            null,
+        );
+    },
+    next: function(){
+        RCTUIManager.dispatchViewManagerCommand(
+            React.findNodeHandle(this),
+            RCTUIManager.RCTWheelView.Commands.next,
+            null,
+        );
+    },
     handleOnChange(event){
         if(this.props.onItemChange){
             this.props.onItemChange(event.nativeEvent.index);
         }
     },
     render(){
-        return <NativeWheelView {...this.props} onChange = {this.handleOnChange} />;
-    }
+        return(
+            <NativeWheelView
+                {...this.props}
+                onChange = {this.handleOnChange}
+            />
+        );
+    },
 });
 
-module.exports = MyWheelView;
+var NativeWheelView = requireNativeComponent('RCTWheelView',WheelView);
+
+module.exports = WheelView;
