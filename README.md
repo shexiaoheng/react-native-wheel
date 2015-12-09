@@ -187,7 +187,6 @@ dependencies {
     compile 'com.facebook.react:react-native:0.16.1'  //@
 }
 
-// modify the above @ value not higher than you project value
 
 ```
 
