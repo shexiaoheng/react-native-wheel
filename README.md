@@ -195,8 +195,6 @@ https://github.com/weidongjian/androidWheelView
 
 ## Run Renderings
 <center>
-    <img src="https://github.com/shexiaoheng/react-native-wheel/blob/master/Screenshot/result_one.png"
-    width="300" height="450"/>
-    <img src="https://github.com/shexiaoheng/react-native-wheel/blob/master/Screenshot/result_two.png"
+    <img src="https://github.com/shexiaoheng/react-native-wheel/blob/master/Screenshot/wheel.gif"
     width="300" height="450"/>
 </center>
