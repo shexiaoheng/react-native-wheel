@@ -11,6 +11,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
+
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -83,23 +88,14 @@ public class LoopView extends View {
     private float previousY;
     long startTime = 0;
 
+    private int mVelocityFling;
+
     public LoopView(Context context) {
         super(context);
         initLoopView(context);
     }
 
-    public LoopView(Context context, AttributeSet attributeset) {
-        super(context, attributeset);
-        initLoopView(context);
-    }
-
-    public LoopView(Context context, AttributeSet attributeset, int defStyleAttr) {
-        super(context, attributeset, defStyleAttr);
-        initLoopView(context);
-    }
-
     private void initLoopView(Context context) {
-//        Log.d("wheel", "initLoopView");
         this.context = context;
         handler = new MessageHandler(this);
         gestureDetector = new GestureDetector(context, new LoopViewGestureListener(this));
@@ -113,6 +109,8 @@ public class LoopView extends View {
         initPaints();
 
         setTextSize(DEFAULT_TEXT_SIZE);
+
+        mVelocityFling = 20;
     }
 
     private void initPaints() {
@@ -141,17 +139,9 @@ public class LoopView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        Log.d("wheel", "onMeasure widthMeasureSpec = " + getMeasuredWidth() + " heightMeasureSpec = " + getMeasuredHeight());
         remeasure();
         mViewWidth = getMeasuredWidth();
         setMeasuredDimension(mViewWidth, mViewHeight);
-    }
-
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-//        Log.d("wheel", "onLayout left = " + left + " top = " + top + " right = " + right + " bottom = " + bottom);
     }
 
     private void remeasure() {
@@ -358,61 +348,9 @@ public class LoopView extends View {
         mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
     }
 
-    public void next() {
-        cancelFuture();
-        if (isLoop) {
-            float itemHeight = lineSpacingMultiplier * maxTextHeight;
-            mOffset = (int) ((totalScrollY % itemHeight + itemHeight) % itemHeight);
-            if ((float) mOffset > itemHeight / 2.0F) {
-                mOffset = (int) (itemHeight - (float) mOffset + itemHeight);
-            } else {
-                mOffset = (int) (-mOffset + itemHeight);
-            }
-            mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
-        } else {
-            if (selectedItem < items.size() - 1) {
-                float itemHeight = lineSpacingMultiplier * maxTextHeight;
-                mOffset = (int) ((totalScrollY % itemHeight + itemHeight) % itemHeight);
-                if ((float) mOffset > itemHeight / 2.0F) {
-                    mOffset = (int) (itemHeight - (float) mOffset + itemHeight);
-                } else {
-                    mOffset = (int) (-mOffset + itemHeight);
-                }
-                mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
-            }
-        }
-    }
-
-    public void previous() {
-        cancelFuture();
-        if (isLoop) {
-            float itemHeight = lineSpacingMultiplier * maxTextHeight;
-            mOffset = (int) ((totalScrollY % itemHeight - itemHeight) % itemHeight);
-            if ((float) mOffset > itemHeight / 2.0F) {
-                mOffset = (int) (itemHeight - (float) mOffset + itemHeight);
-            } else {
-                mOffset = (int) (-mOffset - itemHeight);
-            }
-            mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
-        } else {
-            if (selectedItem > 0) {
-                float itemHeight = lineSpacingMultiplier * maxTextHeight;
-                mOffset = (int) ((totalScrollY % itemHeight - itemHeight) % itemHeight);
-                if ((float) mOffset > itemHeight / 2.0F) {
-                    mOffset = (int) (itemHeight - (float) mOffset + itemHeight);
-                } else {
-                    mOffset = (int) (-mOffset - itemHeight);
-                }
-                mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
-            }
-        }
-    }
-
     protected final void scrollBy(float velocityY) {
         cancelFuture();
-        // 修改这个值可以改变滑行速度
-        int velocityFling = 20;
-        mFuture = mExecutor.scheduleWithFixedDelay(new InertiaTimerTask(this, velocityY), 0, velocityFling, TimeUnit.MILLISECONDS);
+        mFuture = mExecutor.scheduleWithFixedDelay(new InertiaTimerTask(this, velocityY), 0, mVelocityFling, TimeUnit.MILLISECONDS);
     }
 
     public void cancelFuture() {
@@ -434,8 +372,26 @@ public class LoopView extends View {
         }
     }
 
+    public void setItemsVisible(int itemsVisible) {
+        this.itemsVisible = itemsVisible + 2;
+    }
+
     public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
+    }
+
+    public void setVelocityFling(int velocityFling) {
+        this.mVelocityFling = velocityFling;
+    }
+
+    public void onReceiveNativeEvent(int index) {
+        WritableMap event = Arguments.createMap();
+        event.putInt("index", index);
+        ReactContext reactContext = (ReactContext) getContext();
+        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+                getId(),
+                "topChange",
+                event);
     }
 
     public void setListener(OnItemSelectedListener OnItemSelectedListener) {

@@ -1,6 +1,6 @@
 {
   "name": "react-native-wheel",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "android wheel view for react-native",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,7 @@
   "bugs": {
     "url": "https://github.com/shexiaoheng/react-native-wheel/issues"
   },
-  "homepage": "https://github.com/shexiaoheng/react-native-wheel#readme"
+  "homepage": "https://github.com/shexiaoheng/react-native-wheel#readme",
+  "dependencies": {},
+  "devDependencies": {}
 }
