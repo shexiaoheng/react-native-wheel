@@ -1,4 +1,4 @@
-# react-native-wheel
+# react-native-wheel [![npm version](https://img.shields.io/badge/npm-1.1.1 -blue.svg)](https://www.npmjs.com/package/react-native-wheel) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 the android wheel view for react-native
 
 ## Installation and How to use
@@ -61,7 +61,7 @@ import {
   ToastAndroid
 } from 'react-native';
 
-import WheelView from './wheel';
+import WheelView from 'react-native-wheel';
 
 import Dimensions from 'Dimensions';
 
