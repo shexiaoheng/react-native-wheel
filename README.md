@@ -1,24 +1,37 @@
+<<<<<<< HEAD
 # react-native-wheel [![npm version](https://img.shields.io/badge/npm-1.1.1 -blue.svg)](https://www.npmjs.com/package/react-native-wheel) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 the android wheel view for react-native
+=======
+# react-native-wheel
+RN的Android滚轮组件
+>>>>>>> 0b79623... Update README.md
 
-## Installation and How to use
+## PropTypes
+* values            数据源（支持 String int double boolean）
+* isLoop            是否循环滚动
+* textSize          字体大小
+* selectedIndex     默认选中的下标
+* velocityFling     滚动速度，建议 15-25
+* onItemChange      滚动回调
 
-#### Step 1 - NPM Install
+## 安装和使用
+
+#### NPM Install
 
 ```shell
 npm install --save react-native-wheel
 ```
-#### Step 2 - Update Gradle Settings
+#### Update Gradle Settings
 
 ```gradle
 // file: android/settings.gradle
 ...
 
-include ':react-native-wheel', ':app' 
+include ':react-native-wheel' 
 project(':react-native-wheel').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-wheel')
 ```
 
-#### Step 3 - Update app Gradle Build
+#### Update app Gradle Build
 
 ```gradle
 // file: android/app/build.gradle
@@ -30,7 +43,7 @@ dependencies {
 }
 ```
 
-#### Step 4 - Register React Package
+#### Register React Package
 
 ```java
 ...
@@ -48,7 +61,7 @@ import com.heng.wheel.WheelPackage;
 
 ```
 
-#### Step 5 - Require and use in Javascript
+#### Use
 
 ```js
 
@@ -122,11 +135,10 @@ AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
 
 ```
 
-
-## Reference
-https://github.com/weidongjian/androidWheelView
-
 ## Run Renderings
 ![1](/img/1.jpg)
 ![2](/img/2.jpg)
 ![3](/img/3.jpg)
+
+## Reference
+https://github.com/weidongjian/androidWheelView
