@@ -1,9 +1,12 @@
 # react-native-wheel [![npm version](https://img.shields.io/badge/npm-1.1.2 -blue.svg)](https://www.npmjs.com/package/react-native-wheel) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 RN的Android滚轮组件
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 0b79623... Update README.md
 =======
 >>>>>>> b121173... removed invalid line
+=======
+>>>>>>> b121173e66dda22ccaad8e332a21308f2778ef9b
 
 ## PropTypes
 * values            数据源（支持 String int double boolean）
