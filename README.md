@@ -11,51 +11,17 @@ RN的Android滚轮组件
 * velocityFling     滚动速度，建议 15-25
 * onItemChange      滚动回调
 
-## 安装和使用
+## Install And Use
 
-#### NPM Install
+#### Npm Install
 
 ```shell
-npm install --save react-native-wheel
+$ npm install --save react-native-wheel
 ```
-#### Update Gradle Settings
+#### Add Link
 
-```gradle
-// file: android/settings.gradle
-...
-
-include ':react-native-wheel' 
-project(':react-native-wheel').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-wheel')
-```
-
-#### Update app Gradle Build
-
-```gradle
-// file: android/app/build.gradle
-...
-
-dependencies {
-    ...
-    compile project(':react-native-wheel')
-}
-```
-
-#### Register React Package
-
-```java
-...
-import com.heng.wheel.WheelPackage;
-
-
-    @Override
-    protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-            new WheelPackage()      // Added there
-        );
-    }
-...
-
+```shell
+$ react-native link
 ```
 
 #### Use
