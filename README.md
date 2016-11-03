@@ -18,10 +18,48 @@ RN的Android滚轮组件
 ```shell
 $ npm install --save react-native-wheel
 ```
-#### Add Link
 
-```shell
-$ react-native link
+#### Update Gradle Settings
+```gradle
+// file: android/settings.gradle
+...
+include ':react-native-wheel'
+project(':react-native-wheel').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-wheel/android')
+```
+
+#### Update app Gradle Build
+
+```gradle
+// file: android/app/build.gradle
+...
+
+dependencies {
+  ...
+  compile project(':react-native-wheel')
+}
+```
+
+#### Register React Package
+
+```java
+// file: android/src/main/java/com.xx/MainApplication.java
+...
+
+private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    @Override
+        protected boolean getUseDeveloperSupport() {
+            return BuildConfig.DEBUG;
+        }
+
+        @Override
+        protected List<ReactPackage> getPackages() {
+            return Arrays.<ReactPackage>asList(
+                new MainReactPackage(),
+                new WheelPackage()          // Added there
+            );
+        }
+    };
+
 ```
 
 #### Use

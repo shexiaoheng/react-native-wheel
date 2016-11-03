@@ -4,9 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Handler;
-import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -247,35 +247,36 @@ public class LoopView extends View {
                 int translateY = (int) (radius - Math.cos(radian) * radius - (Math.sin(radian) * maxTextHeight) / 2D);
                 canvas.translate(0.0F, translateY);
                 canvas.scale(1.0F, (float) Math.sin(radian));
+                String text = as[j1];
                 if (translateY <= firstLineY && maxTextHeight + translateY >= firstLineY) {
                     // 条目经过第一条线
                     canvas.save();
                     canvas.clipRect(0, 0, mViewWidth, firstLineY - translateY);
-                    canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintOuterText);
+                    canvas.drawText(text, getXY(paintOuterText)[0] , getXY(paintOuterText)[1], paintOuterText);
                     canvas.restore();
                     canvas.save();
                     canvas.clipRect(0, firstLineY - translateY, mViewWidth, (int) (itemHeight));
-                    canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintCenterText);
+                    canvas.drawText(text, getXY(paintCenterText)[0] , getXY(paintCenterText)[1], paintCenterText);
                     canvas.restore();
                 } else if (translateY <= secondLineY && maxTextHeight + translateY >= secondLineY) {
                     // 条目经过第二条线
                     canvas.save();
                     canvas.clipRect(0, 0, mViewWidth, secondLineY - translateY);
-                    canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintCenterText);
+                    canvas.drawText(text, getXY(paintCenterText)[0] , getXY(paintCenterText)[1], paintCenterText);
                     canvas.restore();
                     canvas.save();
                     canvas.clipRect(0, secondLineY - translateY, mViewWidth, (int) (itemHeight));
-                    canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintOuterText);
+                    canvas.drawText(text, getXY(paintOuterText)[0] , getXY(paintOuterText)[1], paintOuterText);
                     canvas.restore();
                 } else if (translateY >= firstLineY && maxTextHeight + translateY <= secondLineY) {
                     // 中间条目
                     canvas.clipRect(0, 0, mViewWidth, (int) (itemHeight));
-                    canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintCenterText);
+                    canvas.drawText(text, getXY(paintCenterText)[0] , getXY(paintCenterText)[1], paintCenterText);
                     selectedItem = items.indexOf(as[j1]);
                 } else {
                     // 其他条目
                     canvas.clipRect(0, 0, mViewWidth, (int) (itemHeight));
-                    canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintOuterText);
+                    canvas.drawText(text, getXY(paintOuterText)[0] , getXY(paintOuterText)[1], paintOuterText);
                 }
                 canvas.restore();
             }
@@ -283,6 +284,17 @@ public class LoopView extends View {
         }
     }
 
+    private float[] getXY(Paint paint) {
+        float [] xy = new float[2];
+        xy[0] = mViewWidth / 2;
+
+        Rect rect = new Rect(0, 0, getWidth(), maxTextHeight);
+        RectF bounds = new RectF();
+        bounds.bottom = paint.descent() - paint.ascent();
+        bounds.top += (rect.height() - bounds.bottom) / 2.0f;
+        xy[1] = bounds.top - paint.ascent();
+        return xy;
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
