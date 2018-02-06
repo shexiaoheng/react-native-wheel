@@ -1,4 +1,4 @@
-package com.heng.wheel;
+﻿package com.heng.wheel;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -305,6 +305,9 @@ public class LoopView extends View {
                 startTime = System.currentTimeMillis();
                 cancelFuture();
                 previousY = event.getRawY();
+		if (getParent() != null) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 float dy = previousY - event.getRawY();
@@ -325,6 +328,7 @@ public class LoopView extends View {
                 break;
 
             case MotionEvent.ACTION_UP:
+	    case MotionEvent.ACTION_CANCEL:
             default:
                 if (!eventConsumed) {
                     float y = event.getY();
@@ -339,6 +343,9 @@ public class LoopView extends View {
                     } else {
                         smoothScroll(ACTION.CLICK);
                     }
+                }
+		 if (getParent() != null) {
+                    getParent().requestDisallowInterceptTouchEvent(false);
                 }
                 break;
         }
